@@ -1,4 +1,5 @@
 import { Mail, Phone, MapPin, Facebook, Instagram, Linkedin, Twitter } from 'lucide-react';
+import logoUrl from '../../asset/logo.png';
 
 interface FooterProps {
   onNavigate: (section: string) => void;
@@ -12,11 +13,8 @@ export default function Footer({ onNavigate }: FooterProps) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="space-y-4">
-            <div className="flex items-center space-x-2">
-              <div className="bg-gradient-to-r from-sky-400 to-blue-500 text-white rounded-lg p-2">
-                <span className="text-xl font-bold">FM</span>
-              </div>
-              <span className="text-xl font-bold text-white">Finmitra</span>
+            <div className="flex items-center">
+              <img src={logoUrl} alt="Finmitra Logo" className="h-12 md:h-14 w-auto" />
             </div>
             <p className="text-sm">
               Your trusted partner for all financial solutions. We provide comprehensive loan services through our network of Bank and NBFC partners.

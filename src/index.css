@@ -25,6 +25,33 @@
       linear-gradient(to bottom, #e0e0e0 1px, transparent 1px);
     background-size: 20px 20px;
   }
+
+  /* Interactive form styling */
+  .form-interactive input,
+  .form-interactive textarea,
+  .form-interactive select {
+    transition: border-color 150ms ease, box-shadow 150ms ease, transform 150ms ease, background-color 150ms ease;
+    background-color: #ffffff;
+  }
+  .form-interactive input:hover,
+  .form-interactive textarea:hover,
+  .form-interactive select:hover {
+    border-color: rgb(56 189 248 / 1); /* sky-400 */
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.12);
+  }
+  .form-interactive input:focus,
+  .form-interactive textarea:focus,
+  .form-interactive select:focus {
+    border-color: rgb(56 189 248 / 1);
+    box-shadow: 0 8px 20px rgba(59, 130, 246, 0.18);
+    transform: translateY(-1px);
+  }
+  .form-interactive label {
+    transition: color 150ms ease;
+  }
+  .form-interactive label:hover {
+    color: rgb(2 132 199 / 1); /* sky-600 */
+  }
 }
 
 @keyframes fadeIn {

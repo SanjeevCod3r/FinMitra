@@ -38,17 +38,20 @@ export default function Contact() {
     <div className="min-h-screen bg-gradient-to-br from-sky-50 via-blue-50 to-white pt-32 pb-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            Get in Touch
+          <div className="inline-block mb-3">
+            <span className="inline-block text-xs font-semibold text-sky-700 bg-sky-100 rounded-full px-3 py-1">Get in Touch</span>
+          </div>
+          <h1 className="text-4xl font-extrabold mb-3">
+            <span className="bg-gradient-to-r from-sky-500 to-blue-600 bg-clip-text text-transparent">We're here to help</span>
           </h1>
-          <p className="text-xl text-gray-600">
-            We're here to help with all your financial needs
+          <p className="text-lg md:text-xl text-gray-600">
+            with all your financial needs
           </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           <div className="space-y-8">
-            <div className="bg-white rounded-2xl shadow-xl p-8">
+            <div className="bg-white rounded-2xl shadow-xl p-8 transition-all duration-300 ring-1 ring-transparent hover:ring-sky-200 hover:shadow-2xl">
               <h2 className="text-2xl font-bold text-gray-900 mb-6">
                 Contact Information
               </h2>
@@ -105,7 +108,7 @@ export default function Contact() {
               </div>
             </div>
 
-            <div className="bg-white rounded-2xl shadow-xl p-8">
+            <div className="bg-white rounded-2xl shadow-xl p-8 transition-all duration-300 ring-1 ring-transparent hover:ring-sky-200 hover:shadow-2xl">
               <h3 className="text-xl font-bold text-gray-900 mb-4">
                 Follow Us
               </h3>
@@ -144,22 +147,11 @@ export default function Contact() {
               </div>
             </div>
 
-            <div className="bg-white rounded-2xl shadow-xl overflow-hidden h-64">
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d241317.11609823277!2d72.74109995709658!3d19.08219783958221!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c6306644edc1%3A0x5da4ed8f8d648c69!2sMumbai%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1234567890"
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                title="Finmitra Location"
-              ></iframe>
-            </div>
+            {/* Map removed as requested */}
           </div>
 
-          <div className="bg-white rounded-2xl shadow-xl p-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">
+          <div className="bg-white rounded-2xl shadow-xl p-6 form-interactive transition-all duration-300 ring-1 ring-transparent hover:ring-sky-200 hover:shadow-2xl">
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">
               Send us a Message
             </h2>
 
@@ -173,7 +165,7 @@ export default function Contact() {
               </div>
             )}
 
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-5">
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
                   Your Name *
@@ -182,7 +174,7 @@ export default function Contact() {
                   type="text"
                   name="name"
                   required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-transparent hover:border-sky-300"
                   placeholder="Enter your full name"
                 />
               </div>
@@ -195,7 +187,7 @@ export default function Contact() {
                   type="email"
                   name="email"
                   required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-transparent hover:border-sky-300"
                   placeholder="your.email@example.com"
                 />
               </div>
@@ -209,12 +201,12 @@ export default function Contact() {
                   name="phone"
                   required
                   pattern="[0-9]{10}"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-transparent hover:border-sky-300"
                   placeholder="10-digit mobile number"
                 />
               </div>
 
-              <div>
+              <div className="mt-4">
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
                   Your Message *
                 </label>
@@ -222,7 +214,7 @@ export default function Contact() {
                   name="message"
                   required
                   rows={6}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-transparent resize-none"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-transparent hover:border-sky-300 resize-none"
                   placeholder="Tell us how we can help you..."
                 />
               </div>
@@ -230,7 +222,7 @@ export default function Contact() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-gradient-to-r from-sky-400 to-blue-500 text-white py-4 rounded-lg font-semibold hover:shadow-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+                className="w-full bg-gradient-to-r from-sky-400 to-blue-500 text-white py-4 rounded-xl font-semibold hover:shadow-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2 ring-2 ring-sky-400/30 hover:ring-sky-500/50 hover:scale-[1.02]"
               >
                 <span>{isSubmitting ? 'Sending...' : 'Send Message'}</span>
                 <Send size={20} />

@@ -2,10 +2,19 @@ import { Home, Car, GraduationCap, Briefcase, CreditCard, Building2, CircleDolla
 import { useState } from 'react';
 import LoanFormModal from './LoanFormModal';
 
-export default function ServicesSection() {
-  const [selectedLoan, setSelectedLoan] = useState<string | null>(null);
+type LoanType = 'personal' | 'business';
+type Service = {
+  icon: JSX.Element;
+  title: string;
+  description: string;
+  features: string[];
+  type: LoanType;
+};
 
-  const services = [
+export default function ServicesSection() {
+  const [selectedLoan, setSelectedLoan] = useState<LoanType | null>(null);
+
+  const services: Service[] = [
     {
       icon: <CreditCard className="w-8 h-8" />,
       title: 'Personal Loan',
@@ -75,31 +84,36 @@ export default function ServicesSection() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {services.map((service, index) => (
-              <div
-                key={index}
-                onClick={() => setSelectedLoan(service.type)}
-                className="bg-white border-2 border-gray-200 rounded-xl p-8 hover:border-sky-400 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer group"
-              >
-                <div className="w-16 h-16 bg-gradient-to-r from-sky-400 to-blue-500 rounded-lg flex items-center justify-center text-white mb-6 group-hover:scale-110 transition-transform">
-                  {service.icon}
+              <div key={index} className="group relative" style={{ transitionDelay: `${index * 50}ms` }}>
+                {/* Animated gradient frame */}
+                <div className="absolute -inset-[1px] rounded-2xl bg-gradient-to-r from-sky-300/60 via-blue-400/60 to-sky-300/60 opacity-0 group-hover:opacity-100 blur transition-opacity duration-300" />
+
+                <div
+                  onClick={() => setSelectedLoan(service.type)}
+                  className="relative bg-white border-2 border-gray-200 rounded-2xl p-8 transition-all duration-300 transform group-hover:-translate-y-2 group-hover:shadow-2xl group-hover:border-sky-300 cursor-pointer"
+                >
+                  <div className="w-16 h-16 bg-gradient-to-r from-sky-400 to-blue-500 rounded-xl flex items-center justify-center text-white mb-6 transition-transform duration-300 group-hover:rotate-3 group-hover:scale-110">
+                    {service.icon}
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-3">
+                    {service.title}
+                  </h3>
+                  <p className="text-gray-600 mb-4 leading-relaxed">
+                    {service.description}
+                  </p>
+                  <ul className="space-y-2">
+                    {service.features.map((feature, idx) => (
+                      <li key={idx} className="flex items-center text-sm text-gray-700">
+                        <span className="w-1.5 h-1.5 bg-sky-500 rounded-full mr-2"></span>
+                        {feature}
+                      </li>
+                    ))}
+                  </ul>
+
+                  <button className="mt-6 w-full bg-gradient-to-r from-sky-400 to-blue-500 text-white py-3 rounded-xl font-semibold shadow-md ring-2 ring-sky-400/30 hover:ring-sky-500/50 hover:shadow-lg transition-all duration-200 hover:scale-[1.02]">
+                    Apply Now
+                  </button>
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3">
-                  {service.title}
-                </h3>
-                <p className="text-gray-600 mb-4 leading-relaxed">
-                  {service.description}
-                </p>
-                <ul className="space-y-2">
-                  {service.features.map((feature, idx) => (
-                    <li key={idx} className="flex items-center text-sm text-gray-700">
-                      <span className="w-1.5 h-1.5 bg-sky-500 rounded-full mr-2"></span>
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-                <button className="mt-6 w-full bg-gradient-to-r from-sky-400 to-blue-500 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all">
-                  Apply Now
-                </button>
               </div>
             ))}
           </div>

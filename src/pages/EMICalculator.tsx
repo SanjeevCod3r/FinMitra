@@ -63,6 +63,36 @@ export default function EMICalculator() {
                     ₹{loanAmount.toLocaleString('en-IN')}
                   </span>
                 </div>
+                <div className="flex gap-3 items-center mb-3">
+                  <div className="relative flex-1 group">
+                    <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">₹</span>
+                    <input
+                      type="number"
+                      min={50000}
+                      max={10000000}
+                      step={1000}
+                      value={loanAmount}
+                      onChange={(e) => {
+                        const v = Number(e.target.value);
+                        const clamped = Math.min(10000000, Math.max(50000, isNaN(v) ? 0 : v));
+                        setLoanAmount(clamped);
+                      }}
+                      className="w-full pl-7 pr-3 py-3 rounded-lg border border-gray-300 focus:border-sky-400 focus:ring-2 focus:ring-sky-200 transition bg-white hover:border-sky-300"
+                    />
+                  </div>
+                  <button
+                    onClick={() => setLoanAmount(loanAmount + 50000 <= 10000000 ? loanAmount + 50000 : 10000000)}
+                    className="px-3 py-2 rounded-lg border text-sm font-medium text-gray-700 bg-gray-50 hover:bg-sky-50 hover:text-sky-700 hover:border-sky-300 transition"
+                  >
+                    +50k
+                  </button>
+                  <button
+                    onClick={() => setLoanAmount(loanAmount - 50000 >= 50000 ? loanAmount - 50000 : 50000)}
+                    className="px-3 py-2 rounded-lg border text-sm font-medium text-gray-700 bg-gray-50 hover:bg-sky-50 hover:text-sky-700 hover:border-sky-300 transition"
+                  >
+                    -50k
+                  </button>
+                </div>
                 <input
                   type="range"
                   min="50000"
@@ -87,6 +117,36 @@ export default function EMICalculator() {
                     {interestRate}%
                   </span>
                 </div>
+                <div className="flex gap-3 items-center mb-3">
+                  <div className="relative flex-1 group">
+                    <input
+                      type="number"
+                      min={5}
+                      max={25}
+                      step={0.1}
+                      value={interestRate}
+                      onChange={(e) => {
+                        const v = Number(e.target.value);
+                        const clamped = Math.min(25, Math.max(5, isNaN(v) ? 0 : v));
+                        setInterestRate(Number(clamped.toFixed(2)));
+                      }}
+                      className="w-full pl-3 pr-10 py-3 rounded-lg border border-gray-300 focus:border-sky-400 focus:ring-2 focus:ring-sky-200 transition bg-white hover:border-sky-300"
+                    />
+                    <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-gray-500">%</span>
+                  </div>
+                  <button
+                    onClick={() => setInterestRate(Math.min(25, Number((interestRate + 0.5).toFixed(2))))}
+                    className="px-3 py-2 rounded-lg border text-sm font-medium text-gray-700 bg-gray-50 hover:bg-sky-50 hover:text-sky-700 hover:border-sky-300 transition"
+                  >
+                    +0.5
+                  </button>
+                  <button
+                    onClick={() => setInterestRate(Math.max(5, Number((interestRate - 0.5).toFixed(2))))}
+                    className="px-3 py-2 rounded-lg border text-sm font-medium text-gray-700 bg-gray-50 hover:bg-sky-50 hover:text-sky-700 hover:border-sky-300 transition"
+                  >
+                    -0.5
+                  </button>
+                </div>
                 <input
                   type="range"
                   min="5"
@@ -110,6 +170,36 @@ export default function EMICalculator() {
                   <span className="text-xl font-bold text-sky-600">
                     {loanTenure} months
                   </span>
+                </div>
+                <div className="flex gap-3 items-center mb-3">
+                  <div className="relative flex-1 group">
+                    <input
+                      type="number"
+                      min={6}
+                      max={360}
+                      step={1}
+                      value={loanTenure}
+                      onChange={(e) => {
+                        const v = Number(e.target.value);
+                        const clamped = Math.min(360, Math.max(6, isNaN(v) ? 0 : v));
+                        setLoanTenure(Math.round(clamped));
+                      }}
+                      className="w-full pl-3 pr-16 py-3 rounded-lg border border-gray-300 focus:border-sky-400 focus:ring-2 focus:ring-sky-200 transition bg-white hover:border-sky-300"
+                    />
+                    <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-gray-500">months</span>
+                  </div>
+                  <button
+                    onClick={() => setLoanTenure(Math.min(360, loanTenure + 6))}
+                    className="px-3 py-2 rounded-lg border text-sm font-medium text-gray-700 bg-gray-50 hover:bg-sky-50 hover:text-sky-700 hover:border-sky-300 transition"
+                  >
+                    +6m
+                  </button>
+                  <button
+                    onClick={() => setLoanTenure(Math.max(6, loanTenure - 6))}
+                    className="px-3 py-2 rounded-lg border text-sm font-medium text-gray-700 bg-gray-50 hover:bg-sky-50 hover:text-sky-700 hover:border-sky-300 transition"
+                  >
+                    -6m
+                  </button>
                 </div>
                 <input
                   type="range"
@@ -172,14 +262,14 @@ export default function EMICalculator() {
               <div className="flex space-x-4">
                 <div className="flex-1">
                   <div className="text-sm text-gray-600 mb-1">Principal</div>
-                  <div className="h-4 bg-sky-500 rounded"></div>
+                  <div className="h-4 bg-sky-500 rounded transition-[width] duration-500" style={{ width: `${Math.max(0, Math.min(100, (loanAmount / (totalAmount || 1)) * 100))}%` }}></div>
                   <div className="text-xs text-gray-500 mt-1">
                     {((loanAmount / totalAmount) * 100).toFixed(1)}%
                   </div>
                 </div>
                 <div className="flex-1">
                   <div className="text-sm text-gray-600 mb-1">Interest</div>
-                  <div className="h-4 bg-orange-500 rounded"></div>
+                  <div className="h-4 bg-orange-500 rounded transition-[width] duration-500" style={{ width: `${Math.max(0, Math.min(100, (totalInterest / (totalAmount || 1)) * 100))}%` }}></div>
                   <div className="text-xs text-gray-500 mt-1">
                     {((totalInterest / totalAmount) * 100).toFixed(1)}%
                   </div>

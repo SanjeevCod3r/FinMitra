@@ -1,69 +1,56 @@
-import { Home, Car, GraduationCap, Briefcase, CreditCard, Building2, CircleDollarSign } from 'lucide-react';
-import { useState } from 'react';
+import { Home, Car, Briefcase, CreditCard, Building2, Shield } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import LoanFormModal from './LoanFormModal';
+import InquiryModal from './InquiryModal';
 
 type LoanType = 'personal' | 'business';
-type Service = {
-  icon: JSX.Element;
-  title: string;
-  description: string;
-  features: string[];
-  type: LoanType;
-};
 
 export default function ServicesSection() {
   const [selectedLoan, setSelectedLoan] = useState<LoanType | null>(null);
+  type Category = 'loans' | 'insurance' | 'cards';
+  const [selectedCategory, setSelectedCategory] = useState<Category>('loans');
 
-  const services: Service[] = [
-    {
-      icon: <CreditCard className="w-8 h-8" />,
-      title: 'Personal Loan',
-      description: 'Quick personal loans with minimal documentation for all your immediate needs.',
-      features: ['Up to ₹25 Lakhs', 'Flexible tenure', 'Quick approval'],
-      type: 'personal'
-    },
-    {
-      icon: <Briefcase className="w-8 h-8" />,
-      title: 'Business Loan',
-      description: 'Fuel your business growth with customized business loan solutions.',
-      features: ['Up to ₹1 Crore', 'Competitive rates', 'Easy documentation'],
-      type: 'business'
-    },
-    {
-      icon: <Home className="w-8 h-8" />,
-      title: 'Home Loan',
-      description: 'Make your dream home a reality with our affordable home loan options.',
-      features: ['Low interest rates', 'Long tenure', 'Tax benefits'],
-      type: 'personal'
-    },
-    {
-      icon: <Car className="w-8 h-8" />,
-      title: 'Car Loan',
-      description: 'Drive your dream car home with our attractive car loan schemes.',
-      features: ['Up to 90% funding', 'Quick disbursal', 'Flexible EMI'],
-      type: 'personal'
-    },
-    {
-      icon: <Car className="w-8 h-8" />,
-      title: 'Used Car Loan',
-      description: 'Get financing for pre-owned vehicles with easy approval process.',
-      features: ['Up to 80% funding', 'Instant approval', 'Low rates'],
-      type: 'personal'
-    },
-    {
-      icon: <GraduationCap className="w-8 h-8" />,
-      title: 'Education Loan',
-      description: 'Invest in your future with our comprehensive education loan options.',
-      features: ['Cover full fees', 'Moratorium period', 'Tax benefits'],
-      type: 'personal'
-    },
-    {
-      icon: <CircleDollarSign className="w-8 h-8" />,
-      title: 'Overdraft Facility',
-      description: 'Access funds whenever you need with our flexible overdraft solutions.',
-      features: ['Instant access', 'Pay for usage', 'Revolving credit'],
-      type: 'business'
-    }
+  const [inquiry, setInquiry] = useState<{ open: boolean; category: 'insurance' | 'cards'; itemName: string } | null>(null);
+
+  // Initialize category from hash (#loans | #insurance | #credit-cards)
+  useEffect(() => {
+    const hash = (window.location.hash || '').toLowerCase();
+    if (hash.includes('insurance')) setSelectedCategory('insurance');
+    else if (hash.includes('credit')) setSelectedCategory('cards');
+    else if (hash.includes('loan')) setSelectedCategory('loans');
+  }, []);
+
+  const loanItems = [
+    { icon: <CreditCard className="w-8 h-8" />, title: 'Personal Loan', type: 'personal' as const, desc: 'Quick approvals and flexible tenure.' },
+    { icon: <Briefcase className="w-8 h-8" />, title: 'Business Loan', type: 'business' as const, desc: 'Fuel growth with tailored solutions.' },
+    { icon: <Car className="w-8 h-8" />, title: 'Used Car Loan', type: 'personal' as const, desc: 'Easy finance for pre-owned cars.' },
+    { icon: <Home className="w-8 h-8" />, title: 'Home Loan', type: 'personal' as const, desc: 'Affordable rates, long tenure.' },
+    { icon: <Car className="w-8 h-8" />, title: 'Car Loan', type: 'personal' as const, desc: 'Up to 90% funding with quick disbursal.' },
+  ];
+
+  const insuranceItems = [
+    { icon: <Shield className="w-8 h-8" />, title: 'Health Insurance' },
+    { icon: <Shield className="w-8 h-8" />, title: 'Life Insurance' },
+    { icon: <Car className="w-8 h-8" />, title: 'Auto Insurance' },
+    { icon: <TruckLike />, title: 'Car, Truck, Bus Etc.' },
+    { icon: <Car className="w-8 h-8" />, title: 'Two Wheeler Insurance' },
+  ];
+
+  // Fallback icon component for vehicles category text when lucide lacks a specific icon
+  function TruckLike() {
+    return (
+      <div className="w-8 h-8 rounded-md bg-gradient-to-r from-sky-400 to-blue-500 text-white grid place-items-center text-xs font-bold">
+        Auto
+      </div>
+    );
+  }
+
+  const creditCardItems = [
+    'HDFC Credit Card',
+    'SBI Credit Card',
+    'INDUSIND Credit Card',
+    'IDFC Credit Card',
+    'Bank of Baroda Credit Card',
   ];
 
   return (
@@ -82,40 +69,89 @@ export default function ServicesSection() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {services.map((service, index) => (
-              <div key={index} className="group relative" style={{ transitionDelay: `${index * 50}ms` }}>
-                {/* Animated gradient frame */}
-                <div className="absolute -inset-[1px] rounded-2xl bg-gradient-to-r from-sky-300/60 via-blue-400/60 to-sky-300/60 opacity-0 group-hover:opacity-100 blur transition-opacity duration-300" />
-
-                <div
-                  onClick={() => setSelectedLoan(service.type)}
-                  className="relative bg-white border-2 border-gray-200 rounded-2xl p-8 transition-all duration-300 transform group-hover:-translate-y-2 group-hover:shadow-2xl group-hover:border-sky-300 cursor-pointer"
+          {/* Category Tabs */}
+          <div className="flex items-center justify-center gap-2 sm:gap-3 mb-10">
+            {([
+              { key: 'loans', label: 'Loans' },
+              { key: 'insurance', label: 'Insurance' },
+              { key: 'cards', label: 'Credit Cards' }
+            ] as { key: Category; label: string }[]).map((tab) => {
+              const active = selectedCategory === tab.key;
+              return (
+                <button
+                  key={tab.key}
+                  onClick={() => {
+                    setSelectedCategory(tab.key);
+                    const hash = tab.key === 'loans' ? '#loans' : tab.key === 'insurance' ? '#insurance' : '#credit-cards';
+                    try { window.history.replaceState(null, '', hash); } catch {}
+                  }}
+                  className={`relative px-4 py-2 rounded-full text-sm font-semibold transition-all ring-1 ${
+                    active
+                      ? 'bg-gradient-to-r from-sky-400 to-blue-500 text-white ring-sky-300 shadow'
+                      : 'bg-white text-gray-700 ring-gray-200 hover:ring-sky-300 hover:text-sky-700'
+                  }`}
                 >
-                  <div className="w-16 h-16 bg-gradient-to-r from-sky-400 to-blue-500 rounded-xl flex items-center justify-center text-white mb-6 transition-transform duration-300 group-hover:rotate-3 group-hover:scale-110">
-                    {service.icon}
-                  </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-3">
-                    {service.title}
-                  </h3>
-                  <p className="text-gray-600 mb-4 leading-relaxed">
-                    {service.description}
-                  </p>
-                  <ul className="space-y-2">
-                    {service.features.map((feature, idx) => (
-                      <li key={idx} className="flex items-center text-sm text-gray-700">
-                        <span className="w-1.5 h-1.5 bg-sky-500 rounded-full mr-2"></span>
-                        {feature}
-                      </li>
-                    ))}
-                  </ul>
+                  {tab.label}
+                </button>
+              );
+            })}
+          </div>
 
-                  <button className="mt-6 w-full bg-gradient-to-r from-sky-400 to-blue-500 text-white py-3 rounded-xl font-semibold shadow-md ring-2 ring-sky-400/30 hover:ring-sky-500/50 hover:shadow-lg transition-all duration-200 hover:scale-[1.02]">
-                    Apply Now
-                  </button>
+          {/* Filtered Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {selectedCategory === 'loans' &&
+              loanItems.map((item, index) => (
+                <div key={index} className="group relative" style={{ transitionDelay: `${index * 50}ms` }}>
+                  <div className="absolute -inset-[1px] rounded-2xl bg-gradient-to-r from-sky-300/60 via-blue-400/60 to-sky-300/60 opacity-0 group-hover:opacity-100 blur transition-opacity duration-300" />
+                  <div
+                    onClick={() => setSelectedLoan(item.type)}
+                    className="relative bg-white border-2 border-gray-200 rounded-2xl p-8 transition-all duration-300 transform group-hover:-translate-y-2 group-hover:shadow-2xl group-hover:border-sky-300 cursor-pointer"
+                  >
+                    <div className="w-16 h-16 bg-gradient-to-r from-sky-400 to-blue-500 rounded-xl flex items-center justify-center text-white mb-6 transition-transform duration-300 group-hover:rotate-3 group-hover:scale-110">
+                      {item.icon}
+                    </div>
+                    <h3 className="text-xl font-bold text-gray-900 mb-2">{item.title}</h3>
+                    <p className="text-gray-600">{item.desc}</p>
+                    <button className="mt-6 w-full bg-gradient-to-r from-sky-400 to-blue-500 text-white py-3 rounded-xl font-semibold shadow-md ring-2 ring-sky-400/30 hover:ring-sky-500/50 hover:shadow-lg transition-all duration-200 hover:scale-[1.02]">
+                      Apply Now
+                    </button>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+
+            {selectedCategory === 'insurance' &&
+              insuranceItems.map((item, index) => (
+                <div key={index} className="group relative">
+                  <div className="absolute -inset-[1px] rounded-2xl bg-gradient-to-r from-blue-300/60 via-indigo-400/60 to-blue-300/60 opacity-0 group-hover:opacity-100 blur transition-opacity duration-300" />
+                  <div
+                    onClick={() => setInquiry({ open: true, category: 'insurance', itemName: item.title })}
+                    className="relative bg-white border-2 border-gray-200 rounded-2xl p-8 transition-all duration-300 transform group-hover:-translate-y-2 group-hover:shadow-2xl group-hover:border-blue-300 cursor-pointer"
+                  >
+                    <div className="w-16 h-16 bg-gradient-to-r from-blue-400 to-indigo-500 rounded-xl flex items-center justify-center text-white mb-6 transition-transform duration-300 group-hover:rotate-3 group-hover:scale-110">
+                      {item.icon}
+                    </div>
+                    <h3 className="text-xl font-bold text-gray-900">{item.title}</h3>
+                    <p className="text-gray-600 mt-2">Get the right coverage with guidance from our experts.</p>
+                  </div>
+                </div>
+              ))}
+
+            {selectedCategory === 'cards' &&
+              creditCardItems.map((name, index) => (
+                <div key={index} className="group relative">
+                  <div className="absolute -inset-[1px] rounded-2xl bg-gradient-to-r from-indigo-300/60 via-violet-400/60 to-indigo-300/60 opacity-0 group-hover:opacity-100 blur transition-opacity duration-300" />
+                  <div
+                    onClick={() => setInquiry({ open: true, category: 'cards', itemName: name })}
+                    className="relative bg-white border-2 border-gray-200 rounded-2xl p-8 transition-all duration-300 transform group-hover:-translate-y-2 group-hover:shadow-2xl group-hover:border-indigo-300 cursor-pointer"
+                  >
+                    <div className="w-16 h-16 bg-gradient-to-r from-indigo-500 to-violet-600 rounded-xl flex items-center justify-center text-white mb-6 transition-transform duration-300 group-hover:rotate-3 group-hover:scale-110">
+                      <CreditCard className="w-8 h-8" />
+                    </div>
+                    <h3 className="text-xl font-bold text-gray-900">{name}</h3>
+                    <p className="text-gray-600 mt-2">Apply with ease and enjoy great benefits.</p>
+                  </div>
+                </div>
+              ))}
           </div>
 
           <div className="relative mt-12 overflow-hidden rounded-2xl bg-gradient-to-br from-sky-50 via-blue-50 to-white p-8 text-center ring-1 ring-sky-100">
@@ -169,6 +205,13 @@ export default function ServicesSection() {
         isOpen={selectedLoan !== null}
         onClose={() => setSelectedLoan(null)}
         loanType={selectedLoan || 'personal'}
+      />
+
+      <InquiryModal
+        isOpen={Boolean(inquiry?.open)}
+        onClose={() => setInquiry(null)}
+        category={(inquiry?.category || 'insurance') as 'insurance' | 'cards'}
+        itemName={inquiry?.itemName || ''}
       />
     </>
   );

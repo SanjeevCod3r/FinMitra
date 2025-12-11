@@ -118,14 +118,49 @@ export default function ServicesSection() {
             ))}
           </div>
 
-          <div className="mt-12 bg-gradient-to-r from-sky-50 to-blue-50 rounded-xl p-8 text-center">
-            <Building2 className="w-12 h-12 text-sky-500 mx-auto mb-4" />
-            <h3 className="text-2xl font-bold text-gray-900 mb-2">
-              Powered by Leading Financial Institutions
-            </h3>
-            <p className="text-gray-600">
-              All our loan services are provided through our network of trusted Bank and NBFC partners, ensuring you get the best rates and terms.
-            </p>
+          <div className="relative mt-12 overflow-hidden rounded-2xl bg-gradient-to-br from-sky-50 via-blue-50 to-white p-8 text-center ring-1 ring-sky-100">
+            <div className="pointer-events-none absolute -top-10 -left-10 h-40 w-40 rounded-full bg-sky-200/40 blur-3xl" />
+            <div className="pointer-events-none absolute -bottom-10 -right-10 h-44 w-44 rounded-full bg-blue-200/40 blur-3xl" />
+
+            <div className="relative">
+              <div className="inline-flex items-center px-3 py-1 mb-3 rounded-full text-sm font-medium bg-white/70 backdrop-blur ring-1 ring-sky-200 text-sky-700">
+                Trusted Partners
+              </div>
+              <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br from-sky-50 to-blue-50 ring-1 ring-sky-100 text-sky-500 mb-3">
+                <Building2 className="w-6 h-6" />
+              </div>
+              <h3 className="text-2xl sm:text-3xl font-extrabold tracking-tight mb-2 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-transparent">
+                Powered by Leading Financial Institutions
+              </h3>
+              <p className="text-gray-600 max-w-3xl mx-auto">
+                All our loan services are provided through our network of trusted Bank and NBFC partners, ensuring you get the best rates and terms.
+              </p>
+
+              {/* partner badges */}
+              <div className="mt-6 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 max-w-4xl mx-auto">
+                {[
+                  'HDFC Bank',
+                  'ICICI Bank',
+                  'Axis Bank',
+                  'Kotak Bank',
+                  'SBI',
+                  'IDFC FIRST',
+                  'Bajaj Finserv',
+                  'Tata Capital'
+                ].map((name) => (
+                  <div
+                    key={name}
+                    className="group relative"
+                    title={name}
+                  >
+                    <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-sky-300/50 via-blue-300/50 to-indigo-300/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-[2px]" />
+                    <div className="relative rounded-xl bg-white px-4 py-3 text-sm font-semibold text-gray-800 ring-1 ring-gray-100 shadow-sm transition-all duration-300 group-hover:ring-sky-300 group-hover:shadow-lg group-hover:-translate-y-0.5">
+                      {name}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>

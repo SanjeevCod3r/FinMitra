@@ -103,3 +103,9 @@ input[type="range"]::-moz-range-thumb {
 html {
   scroll-behavior: smooth;
 }
+
+/* Prevent horizontal scroll on mobile */
+html, body, #root {
+  overflow-x: hidden;
+  width: 100%;
+}

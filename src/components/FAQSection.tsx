@@ -40,52 +40,57 @@ export default function FAQSection() {
   ];
 
   return (
-    <section className="py-20 bg-white">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="relative py-20 bg-gradient-to-br from-white via-sky-50 to-blue-50 overflow-hidden">
+      {/* soft background accents */}
+      <div className="pointer-events-none absolute -top-24 -left-28 w-72 h-72 bg-sky-200/40 rounded-full blur-3xl" />
+      <div className="pointer-events-none absolute -bottom-24 -right-28 w-80 h-80 bg-blue-200/40 rounded-full blur-3xl" />
+
+      <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-gray-900 mb-4">
+          <div className="inline-flex items-center px-3 py-1 mb-4 rounded-full text-sm font-medium bg-white/70 backdrop-blur ring-1 ring-sky-200 text-sky-700">FAQs</div>
+          <h2 className="text-4xl font-extrabold tracking-tight mb-3 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-transparent">
             Frequently Asked Questions
           </h2>
-          <p className="text-xl text-gray-600">
+          <p className="text-lg sm:text-xl text-gray-600">
             Find answers to common questions about our loan services
           </p>
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-5">
           {faqs.map((faq, index) => (
-            <div
-              key={index}
-              className="bg-gradient-to-br from-sky-50 to-blue-50 rounded-xl overflow-hidden hover:shadow-lg transition-shadow"
-            >
-              <button
-                onClick={() => setOpenIndex(openIndex === index ? null : index)}
-                className="w-full px-8 py-6 flex items-center justify-between text-left hover:bg-white/50 transition-colors"
-              >
-                <span className="text-lg font-semibold text-gray-900 pr-8">
-                  {faq.question}
-                </span>
-                <ChevronDown
-                  className={`text-sky-500 flex-shrink-0 transition-transform duration-300 ${
-                    openIndex === index ? 'rotate-180' : ''
-                  }`}
-                  size={24}
-                />
-              </button>
-              {openIndex === index && (
-                <div className="px-8 pb-6 text-gray-700 leading-relaxed animate-fade-in">
-                  {faq.answer}
-                </div>
-              )}
+            <div key={index} className="group relative">
+              {/* gradient frame on hover */}
+              <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-sky-300 via-blue-300 to-indigo-300 opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-[2px]" />
+              <div className="relative rounded-2xl bg-white/90 backdrop-blur ring-1 ring-gray-100 shadow-sm transition-all duration-300 group-hover:shadow-xl group-hover:-translate-y-1">
+                <button
+                  aria-expanded={openIndex === index}
+                  onClick={() => setOpenIndex(openIndex === index ? null : index)}
+                  className="w-full px-6 sm:px-8 py-5 sm:py-6 flex items-center justify-between text-left rounded-2xl hover:bg-white/60"
+                >
+                  <span className="text-base sm:text-lg font-semibold text-gray-900 pr-6 sm:pr-8">
+                    {faq.question}
+                  </span>
+                  <ChevronDown
+                    className={`text-sky-500 flex-shrink-0 transition-transform duration-300 ${openIndex === index ? 'rotate-180' : ''}`}
+                    size={24}
+                  />
+                </button>
+                {openIndex === index && (
+                  <div className="px-6 sm:px-8 pb-6 text-gray-700 leading-relaxed animate-fade-in">
+                    {faq.answer}
+                  </div>
+                )}
+              </div>
             </div>
           ))}
         </div>
 
-        <div className="mt-12 bg-gradient-to-r from-sky-400 to-blue-500 rounded-xl p-8 text-center text-white">
+        <div className="mt-12 bg-gradient-to-r from-sky-400 to-blue-500 rounded-2xl p-8 text-center text-white ring-1 ring-sky-300/50 shadow-lg">
           <h3 className="text-2xl font-bold mb-2">Still have questions?</h3>
           <p className="mb-4">Our team is here to help you with any queries</p>
           <a
             href="tel:8178625027"
-            className="inline-block bg-white text-sky-600 px-8 py-3 rounded-lg font-semibold hover:shadow-xl transition-all"
+            className="inline-block bg-white text-sky-600 px-8 py-3 rounded-lg font-semibold hover:shadow-xl transition-all hover:-translate-y-0.5"
           >
             Call Us Now
           </a>

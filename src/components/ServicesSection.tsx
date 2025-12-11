@@ -61,7 +61,7 @@ export default function ServicesSection() {
   const creditCardItems = [
     { name: 'HDFC Credit Card', image: hdfcCardImg, key: 'hdfc' as const },
     { name: 'SBI Credit Card', image: sbiCardImg, key: 'sbi' as const },
-    { name: 'INDUSIND Credit Card', image: indusindCardImg, key: 'indusind' as const },
+    { name: 'Indusind Credit Card', image: indusindCardImg, key: 'indusind' as const },
     { name: 'IDFC Credit Card', image: idfcCardImg, key: 'idfc' as const },
     { name: 'Bank of Baroda Credit Card', image: bobCardImg, key: 'bob' as const },
   ];
@@ -82,6 +82,10 @@ export default function ServicesSection() {
     const matchesQuery = !q || normalized(i.name).includes(q);
     return matchesKey && matchesQuery;
   });
+  const hasResults =
+    (selectedCategory === 'loans' && filteredLoanItems.length > 0) ||
+    (selectedCategory === 'insurance' && filteredInsuranceItems.length > 0) ||
+    (selectedCategory === 'cards' && filteredCardItems.length > 0);
 
   return (
     <>
@@ -98,6 +102,15 @@ export default function ServicesSection() {
               Click on any service to apply
             </p>
           </div>
+
+          {/* Empty state */}
+          {!hasResults && (
+            <div className="mt-6 flex flex-col items-center justify-center text-center py-10 rounded-2xl border-2 border-dashed border-gray-200 bg-white">
+              <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-sky-100 to-blue-100 text-sky-600 grid place-items-center mb-3">🔎</div>
+              <h4 className="text-lg font-bold text-gray-900 mb-1">No results found</h4>
+              <p className="text-gray-600 max-w-md">Try adjusting your search or clearing filters to see more options.</p>
+            </div>
+          )}
 
           {/* Category Tabs */}
           <div className="flex items-center justify-center gap-2 sm:gap-3 mb-10">
@@ -242,9 +255,11 @@ export default function ServicesSection() {
               ))}
           </div>
 
-          <div className="relative mt-12 overflow-hidden rounded-2xl bg-gradient-to-br from-sky-50 via-blue-50 to-white p-8 text-center ring-1 ring-sky-100">
-            <div className="pointer-events-none absolute -top-10 -left-10 h-40 w-40 rounded-full bg-sky-200/40 blur-3xl" />
-            <div className="pointer-events-none absolute -bottom-10 -right-10 h-44 w-44 rounded-full bg-blue-200/40 blur-3xl" />
+          <div className="relative mt-12 overflow-hidden rounded-3xl bg-gradient-to-br from-sky-50 via-blue-50 to-white p-10 text-center ring-1 ring-sky-100">
+            <div className="pointer-events-none absolute -top-16 -left-10 h-56 w-56 rounded-full bg-sky-200/40 blur-3xl" />
+            <div className="pointer-events-none absolute -bottom-16 -right-10 h-60 w-60 rounded-full bg-blue-200/40 blur-3xl" />
+            <div className="pointer-events-none absolute -top-10 right-1/4 h-48 w-48 rounded-full bg-fuchsia-200/40 blur-3xl" />
+            <div className="pointer-events-none absolute bottom-0 left-1/4 h-48 w-48 rounded-full bg-emerald-200/40 blur-3xl" />
 
             <div className="relative">
               <div className="inline-flex items-center px-3 py-1 mb-3 rounded-full text-sm font-medium bg-white/70 backdrop-blur ring-1 ring-sky-200 text-sky-700">
@@ -260,8 +275,8 @@ export default function ServicesSection() {
                 All our loan services are provided through our network of trusted Bank and NBFC partners, ensuring you get the best rates and terms.
               </p>
 
-              {/* partner badges */}
-              <div className="mt-6 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 max-w-4xl mx-auto">
+              {/* partner badges - 3D styled */}
+              <div className="mt-8 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 max-w-5xl mx-auto">
                 {[
                   'HDFC Bank',
                   'ICICI Bank',
@@ -272,14 +287,16 @@ export default function ServicesSection() {
                   'Bajaj Finserv',
                   'Tata Capital'
                 ].map((name) => (
-                  <div
-                    key={name}
-                    className="group relative"
-                    title={name}
-                  >
-                    <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-sky-300/50 via-blue-300/50 to-indigo-300/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-[2px]" />
-                    <div className="relative rounded-xl bg-white px-4 py-3 text-sm font-semibold text-gray-800 ring-1 ring-gray-100 shadow-sm transition-all duration-300 group-hover:ring-sky-300 group-hover:shadow-lg group-hover:-translate-y-0.5">
-                      {name}
+                  <div key={name} className="group relative" title={name}>
+                    <div className="absolute -inset-[1px] rounded-2xl bg-gradient-to-r from-sky-300/50 via-blue-400/50 to-indigo-400/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-sm" />
+                    <div className="absolute -inset-[1px] rounded-2xl bg-gradient-to-r from-fuchsia-300/40 via-rose-300/40 to-amber-300/40 opacity-0 group-hover:opacity-90 transition-opacity duration-500 blur-md" />
+                    <div className="absolute -bottom-2 left-3 right-3 h-3 rounded-xl bg-gradient-to-b from-sky-300/30 to-transparent blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+                    <div
+                      className="relative rounded-2xl bg-white/90 px-5 py-4 text-sm font-semibold text-gray-800 ring-1 ring-gray-100 shadow-[0_8px_18px_-8px_rgba(14,165,233,0.25)] transition-all duration-300 will-change-transform transform group-hover:-translate-y-1.5 group-hover:rotate-[1deg] group-hover:shadow-[0_22px_46px_-12px_rgba(168,85,247,0.45)] group-hover:ring-indigo-300"
+                    >
+                      <span className="pointer-events-none absolute inset-y-0 left-[-30%] w-1/3 bg-white/20 blur-md transform -skew-x-12 transition-transform duration-700 ease-out group-hover:translate-x-[260%]" />
+                      <span className="relative z-10">{name}</span>
                     </div>
                   </div>
                 ))}
